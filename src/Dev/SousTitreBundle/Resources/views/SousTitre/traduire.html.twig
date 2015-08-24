@@ -1,0 +1,29 @@
+{% extends "DevSousTitreBundle::Layout/layout1.html.twig" %}
+
+
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+
+
+{% block body %}
+	<h1>Traduisez vos srt</H1>
+	
+
+	{% if traductionEnCours %}
+		<p>
+		{% if traductionEnCoursOk %}
+			<p><a href="{{asset(fileName)}}">Telecharger</a></p>
+		{% else %}
+			</p>{{msgError}}</p>
+		{% endif %}
+		<textarea>{{trad}}</textarea>
+		</p>
+	{% endif %}
+
+	
+
+
+  selectionner un fichier
+  {{ form(formUpload) }}
+
+{% endblock %}
+

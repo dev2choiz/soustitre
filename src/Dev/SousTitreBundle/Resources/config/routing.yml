@@ -1,0 +1,11 @@
+dev_sous_titre_accueil:
+    path:     /
+    defaults: { _controller: DevSousTitreBundle:Accueil:index }
+
+dev_sous_titre_traduire:
+    path:     /traduire
+    defaults: { _controller: DevSousTitreBundle:SousTitre:traduire }
+
+#dev_sous_titre_homepage:
+#    path:     /hello/{name}
+#    defaults: { _controller: DevSousTitreBundle:Default:index }

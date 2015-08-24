@@ -1,0 +1,14 @@
+
+{% extends "DevSousTitreBundle::Layout/layout1.html.twig" %}
+
+
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+
+
+{% block body %}
+  
+  Hello {{ name }}!<br> 
+  <a href="{{ path('dev_sous_titre_traduire') }}">acceder à l'outil de traduction de sous-titres</a>
+  ...
+{% endblock %}
+
