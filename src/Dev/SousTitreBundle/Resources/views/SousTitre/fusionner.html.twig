@@ -1,0 +1,148 @@
+{% extends "DevSousTitreBundle::Layout/layout2.html.twig" %}
+
+
+{% block title %}{{ parent() }} - Fusionner{% endblock %}
+
+
+{% block body %}
+	<h1>Fusionnez vos srt</H1>
+	
+
+	{% if fusionEnCours %}
+		<p>
+		{% if fusionEnCoursOk %}
+			<p><a href="{{asset(fileName)}}">Telecharger</a></p>
+		{% else %}
+			</p>{{msgError}}</p>
+		{% endif %}
+
+      <div class="row">
+        <section class="col-md-12">
+			<textarea class="form-control txtAreaApercu">{{resultatFusion}}</textarea>
+		</section>
+	  </div>
+		</p>
+	{% endif %}
+
+	
+
+
+<br>
+<br>
+
+      <div class="row">
+        <section class="col-md-8 col-md-offset-2">
+
+            <form name="FusionSrt" method="post" action="" {{ form_enctype(formFusion) }}>
+
+            <fieldset>
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formFusion.file1) }}
+						<label for="{{formFusion.file1.vars.id}}"  class="col-md-4 control-label">Fichier .srt 1 :</label>
+						<div class="col-md-8">
+							{{ form_widget(formFusion.file1) }}
+						</div>
+					</div>
+				</div>
+
+				</br>
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formFusion.file2) }}
+						<label for="{{formFusion.file2.vars.id}}"  class="col-md-4 control-label">Fichier .srt 2 :</label>
+						<div class="col-md-8">
+							{{ form_widget(formFusion.file2) }}
+						</div>
+					</div>
+				</div>
+
+				</br>
+
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formFusion.couleur1) }}
+						<label for="{{formFusion.couleur1.vars.id}}"  class="col-md-4 control-label">Couleur 1 :</label>
+						<div class="col-md-8">
+							{{ form_widget(formFusion.couleur1, { 'attr': {'class': 'form-control'} }) }}
+							<input type="color" value="#55EF88" id="boiteCouleur1" class='form-control'>
+						</div>
+					</div>
+				</div>
+				</br>
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formFusion.couleur2) }}
+						<label for="{{formFusion.couleur2.vars.id}}"  class="col-md-4 control-label">Couleur 2 :</label>
+						<div class="col-md-8">
+							{{ form_widget(formFusion.couleur2, { 'attr': {'class': 'form-control'} }) }}
+							<input type="color" value="#FFFFFF" id="boiteCouleur2" class='form-control'>
+						</div>
+					</div>
+				</div>
+				</br>
+
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formFusion.taille1) }}
+						<label for="{{formFusion.taille1.vars.id}}"  class="col-md-4 control-label">Taille 1 :</label>
+						<div class="col-md-8">
+							{{ form_widget(formFusion.taille1, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+				</br>
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formFusion.taille2) }}
+						<label for="{{formFusion.taille2.vars.id}}"  class="col-md-4 control-label">Taille 2 :</label>
+						<div class="col-md-8">
+							{{ form_widget(formFusion.taille2, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+				</br>
+
+</br>
+
+				{{ form_rest(formFusion) }}
+
+			  <div class="row">
+				<div class="col-md-2 col-md-offset-5">
+              		<button class="btn btn-primary" type="submit">Fusionner</button>
+              	</div>
+          	  </div>
+
+            </fieldset>
+          </form>
+        </section>
+	   </div>
+
+
+
+
+<br>
+
+
+
+<script type="text/javascript">
+	// donne leur valeurs aux champs couleurs de symfony
+	$("#boiteCouleur1").change(function() {
+		$("#{{formFusion.couleur1.vars.id}}").val( $("#boiteCouleur1").val() );
+	});
+	$("#boiteCouleur2").change(function() {
+		$("#{{formFusion.couleur2.vars.id}}").val( $("#boiteCouleur2").val() );
+	});
+</script>
+
+{% endblock %}

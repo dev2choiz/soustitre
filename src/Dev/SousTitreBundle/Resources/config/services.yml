@@ -11,3 +11,7 @@ services:
         class: Dev\SousTitreBundle\Services\TraduireSoustitreService
         # arguments: [@doctrine.orm.entity_manager, @traductionservice]
         arguments: ["@doctrine.orm.entity_manager", "@traductionservice"]
+
+    fusionnersoustitreservice:
+        class: Dev\SousTitreBundle\Services\FusionnerSoustitreService
+        arguments: []

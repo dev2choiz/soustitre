@@ -1,11 +1,11 @@
 <?php
-namespace Dev\SousTitreBundle\Classes\ObjetForm;
+namespace Dev\SousTitreBundle\Form\Data;
 
 //use Doctrine\Common\Collections\ArrayCollection;
 
 
 //objet qui permettra de faire le formulaire
-class ObjSousTitre
+class UploadSrt
 {
   private $id;
   private $file;

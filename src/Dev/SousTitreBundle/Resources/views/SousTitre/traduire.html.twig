@@ -1,7 +1,7 @@
-{% extends "DevSousTitreBundle::Layout/layout1.html.twig" %}
+{% extends "DevSousTitreBundle::Layout/layout2.html.twig" %}
 
 
-{% block title %}{{ parent() }} - Accueil{% endblock %}
+{% block title %}{{ parent() }} - Traduire{% endblock %}
 
 
 {% block body %}
@@ -22,8 +22,98 @@
 	
 
 
-  selectionner un fichier
-  {{ form(formUpload) }}
+<br>
+<br>
+
+      <div class="row">
+        <section class="col-md-8 col-md-offset-2">
+
+            <form name="UploadSrt" method="post" action="" {{ form_enctype(formUpload) }}>
+
+            <fieldset>
+
+
+
+
+
+
+
+
+  
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formUpload.file) }}
+						<!-- {{ form_label(formUpload.file, 'Selectionnez votre fichier srt :'|trans) }} -->
+						<label for="{{formUpload.file.vars.id}}"  class="col-md-4 control-label">Fichier srt :</label>
+						<div class="col-md-8">
+							{{ form_widget(formUpload.file) }}
+						</div>
+					</div>
+				</div>
+
+</br>
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formUpload.langueSource) }}
+						<!-- {{ form_label(formUpload.file, 'Langue source'|trans) }} -->
+						<label for="{{formUpload.langueSource.vars.id}}"  class="col-md-4 control-label">Langue source :</label>
+						<div class="col-md-8">
+							{{ form_widget(formUpload.langueSource, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+</br>
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formUpload.langueDestination) }}
+						<!-- {{ form_label(formUpload.file, 'Langue cible'|trans) }} -->
+						<label for="{{formUpload.langueDestination.vars.id}}"  class="col-md-4 control-label">Langue cible :</label>
+						<div class="col-md-8">
+							{{ form_widget(formUpload.langueDestination, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+</br>
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formUpload.modeHybride) }}
+						<!-- {{ form_label(formUpload.file, 'Mode hybride'|trans) }} -->
+						<label for="{{formUpload.modeHybride.vars.id}}"  class="col-md-4 control-label">Mode hybride</label>
+						<div class="col-md-8">
+							{{ form_widget(formUpload.modeHybride, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+
+
+</br>
+
+				{{ form_rest(formUpload) }}
+
+			  <!-- <input type="submit"  class="btn btn-primary" value="Traduire" /> -->
+			  <div class="row">
+				<div class="col-md-2 col-md-offset-5">
+              		<button class="btn btn-primary" type="submit">Traduire</button>
+              	</div>
+          	  </div>
+
+            </fieldset>
+          </form>
+        </section>
+	   </div>
+
+
+
+
+
+
+
 
 {% endblock %}
 

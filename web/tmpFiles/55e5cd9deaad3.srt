@@ -1,0 +1,30 @@
+[Script Info]
+ScriptType: v4.00+
+Collisions: Normal
+PlayDepth: 0
+Timer: 100,0000
+Video Aspect Ratio: 0
+WrapStyle: 0
+ScaledBorderAndShadow: no
+
+[V4+ Styles]
+Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
+Style: Default,Arial,28,&H00FFFFFF,&H00FFFFFF,&H80000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,2,10,10,10,0
+Style: Top,Arial,28,&H0061FF66,&H0074FF7A,&H80000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,8,10,10,10,0
+Style: Mid,Arial,28,&H0000FFFF,&H00FFFFFF,&H80000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,5,10,10,10,0
+Style: Bot,Arial,28,&H00F9FFF9,&H00FFFFFF,&H80000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,0,2,10,10,10,0
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:05.00,0:00:06.30,Top,,0000,0000,0000,,﻿Dialogue: 0,0:00:07.50,0:00:09.20,Top,,0000,0000,0000,,Comme un petit bateau
+
+Dialogue: 0,0:00:10.30,0:00:12.00,Top,,0000,0000,0000,,Sur l'océan
+
+Dialogue: 0,0:00:13.00,0:00:14.10,Top,,0000,0000,0000,,Envoi de grosses vagues
+
+Dialogue: 0,0:00:05.00,0:00:06.30,Bot,,0000,0000,0000,,﻿Dialogue: 0,0:00:07.50,0:00:09.20,Bot,,0000,0000,0000,,Comme un petit bateau2
+
+Dialogue: 0,0:00:10.30,0:00:12.00,Bot,,0000,0000,0000,,Sur l'océan2
+
+Dialogue: 0,0:00:13.00,0:00:14.10,Bot,,0000,0000,0000,,Envoi de grosses vagues2
+

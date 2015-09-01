@@ -129,7 +129,7 @@ I could only have one game
 
 1
 00:02:42,900 --> 00:02:45,000
-But I can make a blast
+But I can do an explosion
 
 1
 00:02:45,500 --> 00:02:51,000
