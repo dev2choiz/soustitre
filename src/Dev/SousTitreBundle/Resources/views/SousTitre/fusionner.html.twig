@@ -6,12 +6,11 @@
 
 {% block body %}
 	<h1>Fusionnez vos srt</H1>
-	
 
 	{% if fusionEnCours %}
 		<p>
 		{% if fusionEnCoursOk %}
-			<p><a href="{{asset(fileName)}}">Telecharger</a></p>
+			<p><a href="{{asset(fileName)}}" download>Telecharger</a></p>
 		{% else %}
 			</p>{{msgError}}</p>
 		{% endif %}
@@ -33,7 +32,7 @@
       <div class="row">
         <section class="col-md-8 col-md-offset-2">
 
-            <form name="FusionSrt" method="post" action="" {{ form_enctype(formFusion) }}>
+            <form name="FusionSrt" method="post" action="#" {{ form_enctype(formFusion) }}>
 
             <fieldset>
 
@@ -48,7 +47,7 @@
 					</div>
 				</div>
 
-				</br>
+				<br />
 
 				<div class="row">
 					<div class="form-group">
@@ -60,34 +59,34 @@
 					</div>
 				</div>
 
-				</br>
+				<br />
 
 
 
 				<div class="row">
 					<div class="form-group">
 						{{ form_errors(formFusion.couleur1) }}
-						<label for="{{formFusion.couleur1.vars.id}}"  class="col-md-4 control-label">Couleur 1 :</label>
+						<label for="boiteCouleur1"  class="col-md-4 control-label">Couleur 1 :</label>
 						<div class="col-md-8">
 							{{ form_widget(formFusion.couleur1, { 'attr': {'class': 'form-control'} }) }}
 							<input type="color" value="#55EF88" id="boiteCouleur1" class='form-control'>
 						</div>
 					</div>
 				</div>
-				</br>
+				<br />
 
 
 				<div class="row">
 					<div class="form-group">
 						{{ form_errors(formFusion.couleur2) }}
-						<label for="{{formFusion.couleur2.vars.id}}"  class="col-md-4 control-label">Couleur 2 :</label>
+						<label for="boiteCouleur2"  class="col-md-4 control-label">Couleur 2 :</label>
 						<div class="col-md-8">
 							{{ form_widget(formFusion.couleur2, { 'attr': {'class': 'form-control'} }) }}
 							<input type="color" value="#FFFFFF" id="boiteCouleur2" class='form-control'>
 						</div>
 					</div>
 				</div>
-				</br>
+				<br />
 
 
 
@@ -100,7 +99,7 @@
 						</div>
 					</div>
 				</div>
-				</br>
+				<br />
 
 				<div class="row">
 					<div class="form-group">
@@ -111,9 +110,9 @@
 						</div>
 					</div>
 				</div>
-				</br>
+				<br />
 
-</br>
+<br />
 
 				{{ form_rest(formFusion) }}
 

@@ -17,7 +17,7 @@ class FusionSrt
 
   public function __construct()
   {
-    $this->id   = 3; //round(rand(100),0);
+    //$this->id   = 3; //round(rand(100),0);
   }
   
   

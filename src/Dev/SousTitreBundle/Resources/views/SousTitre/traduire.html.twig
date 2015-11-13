@@ -5,18 +5,31 @@
 
 
 {% block body %}
-	<h1>Traduisez vos srt</H1>
+	<h1>Traduisez vos srt</h1>
 	
-
 	{% if traductionEnCours %}
 		<p>
 		{% if traductionEnCoursOk %}
-			<p><a href="{{asset(fileName)}}">Telecharger</a></p>
+			<p><a href="{{asset(fileName)}}" download>Telecharger</a></p>			
 		{% else %}
-			</p>{{msgError}}</p>
+			
+			<div class="divMsgErreur">
+				
+				<ul class="ulMsgErreur">
+				    {% for msgError in msgErrors %}
+				        <li>{{ msgError }}</li>
+				    {% endfor %}
+				</ul>
+			</div>
 		{% endif %}
-		<textarea>{{trad}}</textarea>
 		</p>
+
+		<div class="row">
+        <section class="col-md-12">
+			<textarea class="form-control txtAreaApercu">{{trad}}</textarea>
+		</section>
+	  </div>
+
 	{% endif %}
 
 	
@@ -28,7 +41,7 @@
       <div class="row">
         <section class="col-md-8 col-md-offset-2">
 
-            <form name="UploadSrt" method="post" action="" {{ form_enctype(formUpload) }}>
+            <form name="UploadSrt" method="post" action="#" {{ form_enctype(formUpload) }}>
 
             <fieldset>
 
@@ -53,7 +66,7 @@
 					</div>
 				</div>
 
-</br>
+<br />
 
 
 				<div class="row">
@@ -66,7 +79,7 @@
 						</div>
 					</div>
 				</div>
-</br>
+<br />
 
 				<div class="row">
 					<div class="form-group">
@@ -78,12 +91,12 @@
 						</div>
 					</div>
 				</div>
-</br>
-
+<br />
+<!-- 
 				<div class="row">
 					<div class="form-group">
 						{{ form_errors(formUpload.modeHybride) }}
-						<!-- {{ form_label(formUpload.file, 'Mode hybride'|trans) }} -->
+						{{ form_label(formUpload.file, 'Mode hybride'|trans) }}
 						<label for="{{formUpload.modeHybride.vars.id}}"  class="col-md-4 control-label">Mode hybride</label>
 						<div class="col-md-8">
 							{{ form_widget(formUpload.modeHybride, { 'attr': {'class': 'form-control'} }) }}
@@ -91,8 +104,8 @@
 					</div>
 				</div>
 
-
-</br>
+ -->
+<br />
 
 				{{ form_rest(formUpload) }}
 
@@ -109,7 +122,7 @@
 	   </div>
 
 
-
+<br />
 
 
 

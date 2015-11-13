@@ -3,18 +3,97 @@
 	padding: 0;
 }
 
-nav ul{
 
+h2{
+	color: #557;
+	font-size:19px;
+	font-style: italic;
+	margin-bottom:0px;
+	font-family: "Comic Sans MS";
+}
+
+p{
+	color: #000;
+	font-size:14px;
+	padding-left: 30px;
+	margin-top:0px;
+	/* font-family: "Comic Sans MS"; */
+}
+
+hr{
+	color:red;
+	background:red;
+	border-top: 1px #555555 solid;
+	box-shadow: 0px -1px 0px 1px #AAC;
+	margin-bottom:0px;
+
+}
+
+.theWrapper a:link {
+	color: #000;
+	text-decoration: none;
+	font-weight: bold;
+ }
+.theWrapper a:visited {
+	color: #000;
+	text-decoration: none;
+	font-weight: bold;
+}
+.theWrapper a:active {
+	color: #000;
+	text-decoration: none;
+	font-weight: bold;
+}
+.theWrapper a:hover {
+	color: #8CF;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+
+
+
+.theWrapper{
+	box-shadow: 0px 0px 2px 1px #AAC;
+	min-height: 500px;
+	padding: 20px 20px 20px 20px; 
+	margin-top: 20px;
+	margin-bottom: 0px;
+	-webkit-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0;
+
+	
+	
+
+}
+	
+.theWrapper ul{
+	list-style-type: none;
+}
+.theWrapper ul li{
+	color: #000000;
+	font-size:18px;
+	font-style: italic;
+	margin-top: 10px;
+	font-family: "Comic Sans MS";
+}
+
+.theWrapper ul li:before {
+   content: '- ';
+}
+
+
+
+nav ul{
 	list-style-type: none;
     margin: 0px;
     padding: 2px;
 	width: 100%;
 
-
-
 	border-top:1px solid black;
 	border-bottom:1px solid black;
 	height: 30px;
+	text-align: center;
 }
 
 nav li{
@@ -41,8 +120,11 @@ nav li a:hover{
 
 .logo{
 	font-size: 70px;
-	font: "Impact";
+	font-family: "Comic Sans MS";
 	font-style: italic;
+	font-variant: small-caps;
+	color : #FFF;
+	text-shadow: 3px 5px 5px #000;
 }
 .souslogo{
 	font-size: 30px;
@@ -51,10 +133,6 @@ nav li a:hover{
 }
 
 
-.wrapper{
-	box-shadow: 0px 0px 2px 1px #AAC;
-	min-height: 500px;
-}
 h1{
 	text-align: center;
 }
@@ -62,7 +140,11 @@ h1{
 .footer{
 	margin-top: 10px;
 	box-shadow: 0px 0px 2px 1px #AAC;
-	min-height: 40px;
+	min-height: 30px;
+	font-size: 13px;
+	font-family: "Comic Sans MS";
+	font-variant: small-caps;
+	
 }
 .center {
      /* float: none; */
@@ -72,5 +154,10 @@ h1{
 .textcenter {
      /* float: none; */
      text-align: center;
+}
+
+
+.centerLiMenu {
+     display:inline-block;
 }
 

@@ -14,7 +14,6 @@ class FusionnerSoustitreService{
 
 
 	public function fusionner ( $fileName1, $fileName2,  $couleur1, $couleur2 , $taille1, $taille2){
-		echo "ddddddddddddddddddddddddddddddddd".$couleur1;
 		$erreurs=[];
 		$contenu1 = file_get_contents($fileName1);
 		$contenu2 = file_get_contents($fileName2);
@@ -76,7 +75,9 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 
-
+						//remplace les sauts de ligne par la chaine "\n"
+						$replique=str_replace("\n", "\\n", $replique);
+						//$replique=str_replace("&#39;", "'", $replique);
 
 
 						//on va prendre la ligne avec le temps puis la purger de tout caracteres non-attendu
@@ -94,7 +95,8 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 						$contenuFusion .= "Dialogue: 0,".substr($delais, 1,10);
 						$contenuFusion .= ",".substr($delais, 14,10);
 						$contenuFusion .= ",".(['Top','Bot'][$i]).",,0000,0000,0000,,";
-						$contenuFusion .= $replique;
+						
+						$contenuFusion .= $replique."\r\n";
 
 					}
 				
@@ -109,7 +111,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 
-		// tout s'est bien passé, on retour le resulat de la fusion sous forme de tableau bi-dimensionnel
+		// tout s'est bien passé, on retourne le resulat de la fusion sous forme de tableau
 		return [true, $contenuFusion];
 
 	    

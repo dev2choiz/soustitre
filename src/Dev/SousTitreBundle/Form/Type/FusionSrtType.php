@@ -14,8 +14,8 @@ class FusionSrtType extends AbstractType
         $builder
           ->add('file1',     'file', array('required' => true, 'label' => 'Fichier .srt 1', 'trim' => true, 'read_only' => false, 'error_bubbling' => false))
           ->add('file2',     'file', array('required' => true, 'label' => 'Fichier .srt 2', 'trim' => true, 'read_only' => false, 'error_bubbling' => false))
-          ->add('couleur1',      'hidden', array('required' => true, 'label'=>'Couleur 1', 'attr' => array('class'=>'form-control') ))
-          ->add('couleur2',      'hidden', array('required' => true, 'label'=>'Couleur 2', 'attr' => array('class'=>'form-control') ))
+          ->add('couleur1',      'hidden', array(/*'required' => true,*/ 'label'=>'Couleur 1', 'attr' => array('class'=>'form-control') ))
+          ->add('couleur2',      'hidden', array(/*'required' => true,*/ 'label'=>'Couleur 2', 'attr' => array('class'=>'form-control') ))
           ->add('taille1',      'integer', array('required' => true, 'label'=>'Taille 1', 'attr' => array('class'=>'form-control',
                                                                                                           'min'=>"1",
                                                                                                           'max'=>"100",

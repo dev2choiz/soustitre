@@ -10,6 +10,18 @@ dev_sous_titre_fusionner:
     path:     /fusionner
     defaults: { _controller: DevSousTitreBundle:SousTitre:fusionner }
 
+dev_sous_titre_soustitres:
+    path:     /soustitres
+    defaults: { _controller: DevSousTitreBundle:SousTitre:sousTitres }
+
+dev_sous_titre_affichersoustitre:
+    path:     /soustitres/{id}
+    defaults: { _controller: DevSousTitreBundle:SousTitre:afficherSousTitres }
+
+dev_sous_titre_liste:
+    path:     /liste
+    defaults: { _controller: DevSousTitreBundle:SousTitre:list }
+
 #dev_sous_titre_homepage:
 #    path:     /hello/{name}
 #    defaults: { _controller: DevSousTitreBundle:Default:index }

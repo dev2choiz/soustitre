@@ -15,3 +15,11 @@ services:
     fusionnersoustitreservice:
         class: Dev\SousTitreBundle\Services\FusionnerSoustitreService
         arguments: []
+
+    SousTitreService:
+        class: Dev\SousTitreBundle\Services\SousTitreService
+        arguments: []
+
+    OutilsElasticService:
+        class: Dev\SousTitreBundle\Services\OutilsElasticService
+        arguments: []

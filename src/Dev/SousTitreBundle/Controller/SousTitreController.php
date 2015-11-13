@@ -12,7 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Dev\SousTitreBundle\Form\Type\FusionSrtType;
 use Dev\SousTitreBundle\Form\Data\FusionSrt;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;// hmmm utile??
+use Dev\SousTitreBundle\Form\Type\SousTitreType;
+use Dev\SousTitreBundle\Entity\SousTitre;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SousTitreController extends Controller
 {
@@ -21,7 +24,7 @@ class SousTitreController extends Controller
 
     	$traductionEnCours 		= false;
     	$traductionEnCoursOk 	= false;
-		$msgError				= "";
+		$msgErrors				= [];
 		$trad 					= "";
 		$urlSrt					= "";
 
@@ -47,41 +50,57 @@ class SousTitreController extends Controller
 	    	  
 	    	// verifie si les entrées sont correctes
 	    	if ($form->isValid()) {
-	    		$traductionEnCours=true;
-	     		$file=$form['file']->getData();
-	 			$file->move("tmpFiles",  $file->getClientOriginalName());
+		    	$traductionEnCours=true;
+		    	$dataView['trad'] = '';
 
-
-				$servTradST = $this->container->get('traduiresoustitreservice');
-
-				$trad=$servTradST->traduire("tmpFiles\\".$file->getClientOriginalName(), $form['langueSource']->getData(), $form['langueDestination']->getData(), $uploadSrt->getModeHybride());
-
-				// on signal si la traduction c'est bien deroulé
-				if( $trad[0] ){
-					$traductionEnCoursOk=true;
-
-					// ecriture de la traduction dans un fichier
-					$fileName="tmpFiles\\".$file->getClientOriginalName();				//uniqid().".srt";
-					$fp = fopen($fileName,"w+"); // ouverture du fichier en écriture
-					fputs($fp, $trad[1] ); // on écrit dans le fichier
-					fclose($fp);
-
-					$dataView['fileName'] = "tmpFiles/".$file->getClientOriginalName();
-				}else{
-					$msgError=$trad[2];
+	    		//vérifie si les langues sont supportées
+				$servTrad = $this->container->get('traductionservice');
+				if (!$servTrad->langueSupportee($uploadSrt->getLangueSource()) ){
+					$msgErrors[]="La langue source n'est pas encore supportée";
 				}
+				if( !$servTrad->langueSupportee($uploadSrt->getLangueDestination()) ) {
+					$msgErrors[]="La langue cible n'est pas encore supportée";
+
+				}
+				if(empty($msgErrors) ){	//les langues sont supportées
+		     		$file=$form['file']->getData();
+		 			$file->move("tmpFiles",  $file->getClientOriginalName());
 
 
-				$dataView['trad'] = $trad[1];
+					$servTradST = $this->container->get('traduiresoustitreservice');
 
-			}
+					$trad=$servTradST->traduire("tmpFiles".DIRECTORY_SEPARATOR.$file->getClientOriginalName(), $form['langueSource']->getData(), $form['langueDestination']->getData()/*, $uploadSrt->getModeHybride()*/);
+					
+					//$trad[1]=html_entity_decode(htmlspecialchars_decode($trad[1]) );
+
+					// on signal si la traduction c'est bien deroulé
+					if( $trad[0] ){
+						$traductionEnCoursOk=true;
+
+						// ecriture de la traduction dans un fichier
+						$fileName="tmpFiles".DIRECTORY_SEPARATOR.uniqid().".srt";
+
+						$fp = fopen($fileName,"w+"); // ouverture du fichier en écriture
+						fputs($fp, $trad[1] ); // on écrit dans le fichier
+						fclose($fp);
+
+						$dataView['fileName'] = str_replace('\\', '/', $fileName);		//necessaire pour dl
+					}else{
+						$msgErrors[]=$trad[2];
+					}
+				
+					$dataView['trad'] = $trad[1];
+				
+				}	//fin test des langues
+
+			}		//fin du traitement de validation
 		}
 
-
+		
 		$dataView['formUpload'] = $form->createView();
 		$dataView['traductionEnCours'] = $traductionEnCours;
 		$dataView['traductionEnCoursOk'] = $traductionEnCoursOk;
-		$dataView['msgError'] = $msgError;
+		$dataView['msgErrors'] = $msgErrors;
 
 
         return $this->render('DevSousTitreBundle:SousTitre:traduire.html.twig',
@@ -137,8 +156,8 @@ class SousTitreController extends Controller
 				$servFusionST = $this->container->get('fusionnersoustitreservice');
 
 				// FUUUUUUUUUUUUU SION !! YAAH
-				$fusion=$servFusionST->fusionner(	"tmpFiles\\".$file1->getClientOriginalName(),
-													"tmpFiles\\".$file2->getClientOriginalName(),
+				$fusion=$servFusionST->fusionner(	"tmpFiles".DIRECTORY_SEPARATOR.$file1->getClientOriginalName(),
+													"tmpFiles".DIRECTORY_SEPARATOR.$file2->getClientOriginalName(),
 													$form['couleur1']->getData(),
 													$form['couleur2']->getData(),
 													$form['taille1']->getData(),
@@ -146,19 +165,19 @@ class SousTitreController extends Controller
 
 
 
-				// on signal si la fusion c'est bien deroulé
+				// on signale si la fusion s'est bien deroulée
 				if( $fusion[0] ){
 					$fusionEnCoursOk=true;
 
 					// ecriture de la fusion dans un fichier
-					$fileName="tmpFiles/".uniqid().".srt";
+					$fileName="tmpFiles".DIRECTORY_SEPARATOR.uniqid().".srt";
 					//!\ suprimer regulierement
 					
 					$fp = fopen($fileName,"w+"); // ouverture du fichier en écriture
 					fputs($fp, $fusion[1] ); // on écrit dans le fichier
 					fclose($fp);
 
-					$dataView['fileName'] = $fileName;
+					$dataView['fileName'] = str_replace('\\', '/', $fileName);	// necessaire pour dl
 					$dataView['resultatFusion'] = $fusion[1];
 					
 				}else{
@@ -179,6 +198,277 @@ class SousTitreController extends Controller
 
 
         return $this->render('DevSousTitreBundle:SousTitre:fusionner.html.twig',
+        		$dataView
+        	);
+    }
+
+
+
+
+
+
+
+
+
+    public function sousTitresAction(Request $request)
+    {
+
+		$em = $this->getDoctrine()->getManager();
+		$sousTitreRepository = $em->getRepository('DevSousTitreBundle:SousTitre');
+		$categorieRepository = $em->getRepository('DevSousTitreBundle:Categorie');
+
+    	$dataView=[];
+
+
+
+
+
+
+    	$ajoutEnCours 		= false;
+    	$ajoutEnCoursOk 	= false;
+		$msgError			= "";
+
+
+
+
+
+	    // On crée un objet FusionSrt
+	    $sousTitre = new SousTitre($em);
+
+	    // // On bind l'objet fusionSrt au formulaire 
+	    $form = $this->get('form.factory')->create(new SousTitreType(), $sousTitre);
+	    //var_dump($sousTitre);
+
+
+	    // *************verifie s'il y a une requete **************
+	    if ($request->getMethod() == 'POST') {
+
+		    // On fait le lien Requête <-> Formulaire
+	    	// À partir de maintenant, la variable $fusionSrt contient les valeurs entrées dans le formulaire par le visiteur
+	    	$form->handleRequest($request);  	//bindrequest()??
+	    		    
+
+	    	// verifie si les entrées sont correctes
+	    	if ($form->isValid()) {
+	    		$ajoutEnCours=true;
+
+
+	    		$sousTitre->setDate(new \Datetime());
+
+	    		// upload du fichier
+	    		$fileName=uniqid().".srt";
+	     		$file=$form['file']->getData();
+	 			$file->move("tmpFiles",  $fileName);
+				$fileName="tmpFiles".DIRECTORY_SEPARATOR.$fileName;
+	 			
+
+	 			var_dump($form['categorie']->getData()->getId() );
+	 			//$sousTitre->setCategorie( $form['categorie']->getData()->getIdCategorie() );
+	 			$sousTitre->setValue( file_get_contents($fileName) );
+
+				$servST = $this->container->get('SousTitreService');
+				$contenu=file_get_contents($fileName);
+
+				if( $servST->isSrt($fileName) ){
+					$ajoutEnCoursOk=true;
+
+					//ecriture de $contenu en base
+				    $em->persist($sousTitre);
+				    $em->flush();
+				}else{
+					$msgError='monumental error !!';
+				}
+
+			}
+		}
+
+
+
+
+		// ON RECUPERE LES SOUS TITRES A AFFICHER
+
+
+
+//		$stRepository=$this->container->get('fos_elastica.manager')->getRepository('DevSousTitreBundle:SousTitre');
+
+		//examine l'eventuelle requete de tri ou de changement de page recues
+		
+		//$em =  $this->getDoctrine()->getEntityManager();
+		//$st = $this->getRepository('DevSousTitreBundle:SousTitre');
+
+		//fourni au repository les params necessaires
+		//$st=$stRepository->findSousTitres("dev");
+		//$soustitres = $sousTitreRepository->findAll();
+		
+		
+	    
+	    $query = $em->createQuery("SELECT s FROM DevSousTitreBundle:SousTitre s");
+		try{
+		    $paginator  = $this->get('knp_paginator');
+		   // var_dump($paginator);
+		    $pagination = $paginator->paginate(
+		        $query,
+		        $request->query->getInt('page', 1)/*page number*/,
+		        3/*limit per page*/
+		    );
+		} catch(\Exception $e) {
+				echo $e->getMessage();
+				
+		    // parameters to template
+		}
+
+		
+
+    	//$dataView['sousTitres']=$soustitres;
+
+		$dataView['pagination']=$pagination;
+
+
+		$dataView['formAddSousTitre'] = $form->createView();
+		$dataView['ajoutEnCours'] = $ajoutEnCours;
+		$dataView['ajoutEnCoursOk'] = $ajoutEnCoursOk;
+		$dataView['msgError'] = $msgError;
+
+
+        return $this->render('DevSousTitreBundle:SousTitre:soustitres.html.twig',
+        		$dataView
+        	);
+    }
+
+	public function listAction(Request $request)
+	{
+		echo 'on y rentre ?';
+	    $em    = $this->get('doctrine.orm.entity_manager');
+	    $query = $em->createQuery("SELECT s FROM DevSousTitreBundle:SousTitre s");
+
+
+
+
+		try{
+
+		    $paginator  = $this->get('knp_paginator');
+		   // var_dump($paginator);
+		    $pagination = $paginator->paginate(
+		        $query,
+		        $request->query->getInt('page', 1)/*page number*/,
+		        3/*limit per page*/
+		    );
+		} catch(\Exception $e) {
+				echo $e->getMessage();
+				
+		    // parameters to template
+		}
+	  return $this->render('DevSousTitreBundle:SousTitre:list.html.twig', array('pagination' => $pagination));
+
+	}
+
+
+
+    public function afficherSousTitres(Request $request, $id)
+    {
+
+
+    	echo "ici";
+
+		$em = $this->getDoctrine()->getManager();
+		$sousTitreRepository = $em->getRepository('DevSousTitreBundle:SousTitre');
+		$categorieRepository = $em->getRepository('DevSousTitreBundle:Categorie');
+
+    	$dataView=[];
+
+
+    	$ajoutEnCours 		= false;
+    	$ajoutEnCoursOk 	= false;
+		$msgError			= "";
+
+
+
+
+
+	    // On crée un objet FusionSrt
+	    $sousTitre = new SousTitre($em);
+
+	    // // On bind l'objet fusionSrt au formulaire 
+	    $form = $this->get('form.factory')->create(new SousTitreType(), $sousTitre);
+	    //var_dump($sousTitre);
+
+
+	    // *************verifie s'il y a une requete **************
+	    if ($request->getMethod() == 'POST') {
+
+		    // On fait le lien Requête <-> Formulaire
+	    	// À partir de maintenant, la variable $fusionSrt contient les valeurs entrées dans le formulaire par le visiteur
+	    	$form->handleRequest($request);  	//bindrequest()??
+	    		    
+
+	    	// verifie si les entrées sont correctes
+	    	if ($form->isValid()) {
+	    		$ajoutEnCours=true;
+
+
+	    		$sousTitre->setDate(new \Datetime());
+
+	    		// upload du fichier
+	    		$fileName=uniqid().".srt";
+	     		$file=$form['file']->getData();
+	 			$file->move("tmpFiles",  $fileName);
+				$fileName="tmpFiles".DIRECTORY_SEPARATOR.$fileName;
+	 			
+
+	 			var_dump($form['categorie']->getData()->getIdCategorie() );
+	 			//$sousTitre->setCategorie( $form['categorie']->getData()->getIdCategorie() );
+	 			$sousTitre->setValue( file_get_contents($fileName) );
+
+				$servST = $this->container->get('SousTitreService');
+				$contenu=file_get_contents($fileName);
+
+				if( $servST->isSrt($fileName) ){
+					$ajoutEnCoursOk=true;
+
+					//ecriture de $contenu en base
+				    $em->persist($sousTitre);
+				    $em->flush();
+				}else{
+					$msgError='monumental error !!';
+				}
+
+			}
+		}
+
+		$st=$sousTitreRepository->findAll();
+		//var_dump($st);
+
+    	$dataView['sousTitres']=$st;
+
+		$dataView['formAddSousTitre'] = $form->createView();
+		$dataView['ajoutEnCours'] = $ajoutEnCours;
+		$dataView['ajoutEnCoursOk'] = $ajoutEnCoursOk;
+		$dataView['msgError'] = $msgError;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return $this->render('DevSousTitreBundle:SousTitre:soustitres.html.twig',
         		$dataView
         	);
     }
