@@ -1,0 +1,151 @@
+{% extends "DevSousTitreBundle::Layout/layout2.html.twig" %}
+
+
+{% block title %}{{ parent() }} - SousTitre{% endblock %}
+
+
+{% block body %}
+	<h1>Sous-titres</h1>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+    	
+	</div>
+</div>
+
+
+	<table  class="tableStyle table-striped table-hover" >
+		<thead>
+			<tr>
+				<th>{{ knp_pagination_sortable(pagination, 'Id', 's.id') }}</th>
+				<th>value</th>
+				<th>{{ knp_pagination_sortable(pagination, 'Titre', 's.intitule') }}</th>
+				<th>Categorie</th>
+				<th>{{ knp_pagination_sortable(pagination, 'Langue', 's.langue') }}</th>
+				<th>{{ knp_pagination_sortable(pagination, 'Auteur', 's.addBy') }}</th>
+				<th>{{ knp_pagination_sortable(pagination, 'Date', 's.date') }}</th>
+			</tr>
+		</thead>
+		{% for sousTitre in pagination %}
+			<tr>
+			<td>{{ sousTitre.id }}</td>
+			<td><textarea>{{ sousTitre.value }}</textarea></td>
+			<td>{{ sousTitre.intitule }}</td>
+			<td>{{ sousTitre.categorie.value }}</td>
+			<td>{{ sousTitre.langue }}</td>
+			<td>{{ sousTitre.addBy }}</td>
+			<td>{{ sousTitre.date.date }}</td>
+			</tr>
+		{% endfor %}
+			
+	</table>
+{# display navigation #}
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
+
+
+
+
+
+
+<br /><br /><br />
+
+
+<hr>
+
+
+
+
+<hr />
+     <div class="row">
+        <section class="col-md-8 col-md-offset-2">
+
+            <form name="UploadSrt" method="post" action="#" {{ form_enctype(formAddSousTitre) }}>
+
+            <fieldset>
+
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formAddSousTitre.file) }}
+						<label for="{{formAddSousTitre.file.vars.id}}"  class="col-md-4 control-label">Fichier srt :</label>
+						<div class="col-md-8">
+							{{ form_widget(formAddSousTitre.file) }}
+						</div>
+					</div>
+				</div>
+
+<br />
+
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formAddSousTitre.langue) }}
+						<label for="{{formAddSousTitre.langue.vars.id}}"  class="col-md-4 control-label">Langue :</label>
+						<div class="col-md-8">
+							{{ form_widget(formAddSousTitre.langue, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+<br />
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formAddSousTitre.intitule) }}
+						<!-- {{ form_label(formAddSousTitre.file, 'Langue cible'|trans) }} -->
+						<label for="{{formAddSousTitre.intitule.vars.id}}"  class="col-md-4 control-label">Intitulé :</label>
+						<div class="col-md-8">
+							{{ form_widget(formAddSousTitre.intitule, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+<br />
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formAddSousTitre.addBy) }}
+						<!-- {{ form_label(formAddSousTitre.file, 'Langue cible'|trans) }} -->
+						<label for="{{formAddSousTitre.addBy.vars.id}}"  class="col-md-4 control-label">Votre pseudo :</label>
+						<div class="col-md-8">
+							{{ form_widget(formAddSousTitre.addBy, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+<br />
+
+				<div class="row">
+					<div class="form-group">
+						{{ form_errors(formAddSousTitre.categorie) }}
+						<!-- {{ form_label(formAddSousTitre.file, 'Langue cible'|trans) }} -->
+						<label for="{{formAddSousTitre.categorie.vars.id}}"  class="col-md-4 control-label">Categorie :</label>
+						<div class="col-md-8">
+							{{ form_widget(formAddSousTitre.categorie, { 'attr': {'class': 'form-control'} }) }}
+						</div>
+					</div>
+				</div>
+<br />
+
+<br />
+
+				{{ form_rest(formAddSousTitre) }}
+
+			  <!-- <input type="submit"  class="btn btn-primary" value="Traduire" /> -->
+			  <div class="row">
+				<div class="col-md-2 col-md-offset-5">
+              		<button class="btn btn-primary" type="submit">Ajouter</button>
+              	</div>
+          	  </div>
+
+            </fieldset>
+          </form>
+        </section>
+	   </div>
+
+
+
+	
+
+{% endblock %}
+
