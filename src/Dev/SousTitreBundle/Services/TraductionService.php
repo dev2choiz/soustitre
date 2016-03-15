@@ -5,7 +5,6 @@ namespace Dev\SousTitreBundle\Services;
 
 class TraductionService{
 
-
 	
 	private $langues;
 
@@ -14,7 +13,6 @@ class TraductionService{
 	}
 
 	public function googleTraduction ( $text, $langueSource, $langueDestination ){
-		//
 		
 		$api_key = 'AIzaSyD1ei4OjsmM2sD2XeHbalLEamMPdXOdfpU';
 		
@@ -22,61 +20,35 @@ class TraductionService{
 		$url .= '&target='.$langueDestination;
 		$url .= '&source='.$langueSource;
 
-		 
+//echo $url;
 
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		$response = curl_exec($curl);                 
+		$response = json_decode($response, true);
+		curl_close($curl);
 
-		$response = file_get_contents(/*urlencode*/($url) );
-		$obj =json_decode($response,true);
-
-		if($obj != null)
-		{
-		    if(isset($obj['error'])){
-		    	return false;
-		        //echo "Error is : ".$obj['error']['message'];
-		    }else{
-
-		    	//echo "trad : ".$obj['data']['translations'][0]['translatedText']."-->"./*htmlentities*/($obj['data']['translations'][0]['translatedText'])."<br>";
-		    	return $obj['data']['translations'][0]['translatedText'];
-		        //echo "Translsated Text: ".$obj['data']['translations'][0]['translatedText']."n";
-		    }
+		/*try{
+			$response = file_get_contents($url);
+		} catch(Exception $e){
+			return false;
 		}
-		else
+		$response =json_decode($response,true);
+		*/
 		
-		
-	    return false;
-	}
-
-
-	public function googleTraduction2 ( $text, $langueSource, $langueDestination ){
-		//
-		
-		$api_key = 'AIzaSyD1ei4OjsmM2sD2XeHbalLEamMPdXOdfpU';
-		 
-		$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
-		$url .= '&target='.$langueDestination;
-		$url .= '&source='.$langueSource;
-
-		
-		$response = file_get_contents($url);
-		$obj =json_decode($response,true); //true converts stdClass to associative array.
-
-		if($obj != null)
-		{
-		    if(isset($obj['error']))
-		    {
-		    	return false;
-		        //echo "Error is : ".$obj['error']['message'];
+		if ($response != null || !empty($response)) {
+		    if (isset($response['error'])) {
+		    	return $text . "({$response['error']['message']})";
+		    } else {
+		    	return $response['data']['translations'][0]['translatedText'];
 		    }
-		    else
-		    {
-		    	return $obj['data']['translations'][0]['translatedText'];
-		        //echo "Translsated Text: ".$obj['data']['translations'][0]['translatedText']."n";
-		    }
+		} else {
+			return $text;
 		}
-		else return false;
+		
+		
+	    
 	}
-
-
 
 	public function recupLangues(){
 

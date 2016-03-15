@@ -16,11 +16,9 @@ class TraduireSoustitreService{
 
 	public function traduire ( $fileName, $langueSource, $langueDestination /*, $modeHybride*/){
 
-
 		$contenu = file_get_contents($fileName);
 		$contenuTrad = $contenu;
 		$pos=0;
-
 
 		
 		$tst=preg_match(
@@ -40,11 +38,8 @@ class TraduireSoustitreService{
 					$replique= substr( $contenu, $posAvant,$res[0][1]-$posAvant );
 					$trad = $this->serviceTrad->googleTraduction( $replique,$langueSource,$langueDestination );
 					
-					/*if ($modeHybride) {
-						$contenuTrad=str_replace($replique, '<font color="#8888FF">'.$trad."</font>\r\n".$replique."\r\n\r\n" , $contenuTrad);
-					} else {*/
-						$contenuTrad=str_replace($replique, "".$trad."\r\n\r\n" , $contenuTrad);
-					//}
+					$contenuTrad=str_replace($replique, "".$trad."\r\n\r\n" , $contenuTrad);
+					
 				}else{		//derniere ligne
 					$replique= substr( $contenu, $pos );	// de la position jusqu'a la fin du fichier
 					$trad = $this->serviceTrad->googleTraduction( $replique,$langueSource,$langueDestination );

@@ -28,7 +28,7 @@ class SousTitreController extends Controller
 		$trad 					= "";
 		$urlSrt					= "";
 
-		$dataView=[];
+		$dataView				= [];
 
         $dataView['name'] = "BacchusSam";
 
@@ -46,7 +46,7 @@ class SousTitreController extends Controller
 
 		    // On fait le lien Requête <-> Formulaire
 	    	// À partir de maintenant, la variable $uploadSrt contient les valeurs entrées dans le formulaire par le visiteur
-	    	$form->handleRequest($request);  	//bindrequest()??
+	    	$form->handleRequest($request);
 	    	  
 	    	// verifie si les entrées sont correctes
 	    	if ($form->isValid()) {
@@ -70,7 +70,7 @@ class SousTitreController extends Controller
 					$servTradST = $this->container->get('traduiresoustitreservice');
 
 					$trad=$servTradST->traduire("tmpFiles".DIRECTORY_SEPARATOR.$file->getClientOriginalName(), $form['langueSource']->getData(), $form['langueDestination']->getData()/*, $uploadSrt->getModeHybride()*/);
-					
+
 					//$trad[1]=html_entity_decode(htmlspecialchars_decode($trad[1]) );
 
 					// on signal si la traduction c'est bien deroulé
@@ -237,7 +237,6 @@ class SousTitreController extends Controller
 
 	    // // On bind l'objet fusionSrt au formulaire 
 	    $form = $this->get('form.factory')->create(new SousTitreType(), $sousTitre);
-	    //var_dump($sousTitre);
 
 
 	    // *************verifie s'il y a une requete **************
@@ -372,7 +371,7 @@ class SousTitreController extends Controller
 
 		$em = $this->getDoctrine()->getManager();
 		$sousTitreRepository = $em->getRepository('DevSousTitreBundle:SousTitre');
-		$categorieRepository = $em->getRepository('DevSousTitreBundle:Categorie');
+		$categorieRepository = $em->getRepository('DevSousTitreBundle:Categorie'); //A F A C
 
     	$dataView=[];
 

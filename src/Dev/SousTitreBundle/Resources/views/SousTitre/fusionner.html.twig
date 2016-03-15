@@ -15,12 +15,15 @@
 			</p>{{msgError}}</p>
 		{% endif %}
 
-      <div class="row">
-        <section class="col-md-12">
-			<textarea class="form-control txtAreaApercu">{{resultatFusion}}</textarea>
-		</section>
-	  </div>
+		{% if resultatFusion is defined %}
+	      <div class="row">
+	        <section class="col-md-12">
+				<textarea class="form-control txtAreaApercu">{{resultatFusion}}</textarea>
+			</section>
+		  </div>
+	  {% endif %}
 		</p>
+
 	{% endif %}
 
 	
@@ -136,6 +139,10 @@
 
 <script type="text/javascript">
 	// donne leur valeurs aux champs couleurs de symfony
+	$(document).ready(function() {
+		$("#{{formFusion.couleur1.vars.id}}").val( $("#boiteCouleur1").val() );
+		$("#{{formFusion.couleur2.vars.id}}").val( $("#boiteCouleur2").val() );
+	});
 	$("#boiteCouleur1").change(function() {
 		$("#{{formFusion.couleur1.vars.id}}").val( $("#boiteCouleur1").val() );
 	});
